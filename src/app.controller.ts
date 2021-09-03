@@ -10,4 +10,9 @@ export class AppController {
   getList(): Store[] {
     return this.appService.getList();
   }
+
+  @Get('/:name')
+  getListByName(@Param('name') name: string): Store {
+    return this.appService.getListByName(name);
+  }
 }

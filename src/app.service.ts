@@ -7,4 +7,8 @@ export class AppService {
   getList(): Store[] {
     return data;
   }
+
+  getListByName(name: string): Store {
+    return data.find((item) => item.name === name);
+  }
 }
