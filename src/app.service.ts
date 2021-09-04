@@ -20,10 +20,13 @@ export class AppService {
   }
 
   async getLocation(postcode: string): Promise<Location> {
-    const res: AxiosResponse = await axios.get(
-      `https://api.postcodes.io/postcodes/${postcode}`,
-    );
+    const res: AxiosResponse = await axios
+      .get(`https://api.postcodes.io/postcodes/${postcode}`)
+      .catch((e) => {
+        throw new NotFoundException(`찾을 수 없는 우편번호 입니다`);
+      });
     const { longitude, latitude } = res.data.result;
+
     return { longitude, latitude };
   }
 
@@ -46,15 +49,18 @@ export class AppService {
       const { longitude, latitude } = targetLocation;
 
       // 받아온 경도, 위도 + 파라미터 radius로 대상의 범위에 위치한 지역 찾기
-      const res = await axios.post(`https://api.postcodes.io/postcodes`, {
-        geolocations: [
-          {
-            longitude,
-            latitude,
-            radius,
-          },
-        ],
-      });
+      const res: AxiosResponse = await axios.post(
+        `https://api.postcodes.io/postcodes`,
+        {
+          geolocations: [
+            {
+              longitude,
+              latitude,
+              radius,
+            },
+          ],
+        },
+      );
 
       // 북->남 으로 정렬하기 위해 경도, 위도 가져오기
       const arrRes = res.data.result[0].result.map((el) => {
