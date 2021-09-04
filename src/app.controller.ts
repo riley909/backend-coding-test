@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { GetSurroundingListDto } from './dto/get-surrounding-list.dto';
 import { Location } from './models/locations.model';
