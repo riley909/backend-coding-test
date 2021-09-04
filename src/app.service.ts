@@ -23,7 +23,9 @@ export class AppService {
     return { longitude, latitude };
   }
 
-  async getSurroundingList(surroundingListDto: GetSurroundingListDto) {
+  async getSurroundingList(
+    surroundingListDto: GetSurroundingListDto,
+  ): Promise<Store[]> {
     const { postcode, radius } = surroundingListDto;
 
     try {

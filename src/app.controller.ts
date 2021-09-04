@@ -24,7 +24,9 @@ export class AppController {
   }
 
   @Post('/surrounding')
-  getSurroundingList(@Body() surroundingListDto: GetSurroundingListDto) {
+  getSurroundingList(
+    @Body() surroundingListDto: GetSurroundingListDto,
+  ): Promise<Store[]> {
     return this.appService.getSurroundingList(surroundingListDto);
   }
 }
