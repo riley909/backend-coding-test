@@ -1,37 +1,117 @@
-# Capa backend coding test
+# API
 
-## About this task
+## 전체 리스트 조회하기
 
-Think of this as an open source project. How would this have to look in order for you to be impressed with it.
+- 지역명과 우편 번호의 전체 리스트를 받아 옵니다.
 
-Please spend at least 90 minutes on this test. Feel free to take more time if you wish - make sure you are happy with your submission!
+> request
 
-_Hint_: we are looking for a high-quality submission with great application architecture. Not a "get it done" approach.
+**URL**
 
-Remember that this test is your opportunity to show us how you think. Be clear about how you make decisions in your code, whether that is with comments, tests, or how you name things.
+```
+GET http://localhost:3000/
+```
 
-## What to do
+> response
 
-### First
+```
+200 OK
 
-* Create a new Javascript-based api service (any framework is fine)
-  * TypeScript would be good, too.
+{
+  "name":"St_Albans",
+  "postcode":"AL1 2RJ"
+},
+{
+  "name": "Hatfield",
+  "postcode": "AL9 5JP"
+},
+```
 
-### Make your API consumer happy
+## 지역명으로 조회하기
 
-Let API consumer
+- 지역명으로 우편 번호를 조회합니다.
 
-* can get the list of stores in `stores.json`
-* can get the specific item of stores in `stores.json`
-  * Your API consumer can identify the item with its name
-* can get the latitude and longitude for each postcode.
-  * You can use postcodes.io to get the latitude and longitudefor each postcode.
-* can get the functionality that allows you to return a list of stores in a given radius of a given postcode in the UK. The list must be ordered from north to south.
+> request
 
-### Finally
+**URL**
 
-* Send the link of your repository.
-* Provide answers for the following questions with your submission:
-  1. If you had chosen to spend more time on this test, what would you have done differently?
-  2. What part did you find the hardest? What part are you most proud of? In both cases, why?
-  3. What is one thing we could do to improve this test?
+```
+GET http://localhost:3000/:name
+```
+
+**Parameter**
+
+| Name | Type   | Description | Required |
+| ---- | ------ | ----------- | :------: |
+| name | String | 지역명      |    O     |
+
+> response
+
+```
+200 OK
+
+{
+  "name": "Gravesend",
+  "postcode": "DA11 0DQ"
+}
+```
+
+## 우편번호로 위치 조회하기
+
+- 우편 번호로 해당 지역의 위도와 경도를 받아 옵니다.
+
+> request
+
+**URL**
+
+```
+GET http://localhost:3000/location/:postcode
+```
+
+**Parameter**
+
+| Name     | Type   | Description              | Required |
+| -------- | ------ | ------------------------ | :------: |
+| postcode | String | 우편 번호(띄어쓰기 없음) |    O     |
+
+> response
+
+```
+200 OK
+
+{
+    "longitude": 0.36056,
+    "latitude": 51.444195
+}
+```
+
+## 우편번호와 거리 범위로 지역 목록 조회하기
+
+- 주어진 우편번호의 거리 범위 내에 존재하는 주변 지역의 위치를 조회합니다.
+- 응답의 정렬 기준은 지역의 위치가 가장 북쪽에 있는 곳을 우선하고, 가장 남쪽에 가까운 곳을 마지막으로 합니다.
+
+> request
+
+**URL**
+
+```
+POST http://localhost:3000/surrounding
+```
+
+**Parameter**
+
+| Name     | Type    | Description              | Required |
+| -------- | ------- | ------------------------ | :------: |
+| postcode | String  | 우편 번호(띄어쓰기 없음) |    O     |
+| radius   | Integer | 거리 범위(m)             |    O     |
+
+> response
+
+```
+200 OK
+
+{
+  "name": "Gravesend",
+  "postcode": "DA11 0DQ"
+}
+```
