@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Store } from './stores.model';
+import { Location } from './models/locations.model';
+import { Store } from './models/stores.model';
 
 @Controller()
 export class AppController {
@@ -14,5 +15,10 @@ export class AppController {
   @Get('/:name')
   getListByName(@Param('name') name: string): Store {
     return this.appService.getListByName(name);
+  }
+
+  @Get('location/:postcode')
+  getLocation(@Param('postcode') postcode: string): Promise<Location> {
+    return this.appService.getLocation(postcode);
   }
 }
