@@ -12,7 +12,11 @@ export class AppService {
   }
 
   getListByName(name: string): Store {
-    return data.find((item) => item.name === name);
+    const item = data.find((el) => el.name === name);
+    if (!item) {
+      throw new NotFoundException(`찾을 수 없는 지역 입니다`);
+    }
+    return item;
   }
 
   async getLocation(postcode: string): Promise<Location> {
